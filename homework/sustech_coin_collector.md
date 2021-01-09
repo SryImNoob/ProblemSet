@@ -1,5 +1,7 @@
 # Problem J: Coin Collector
 
+[Link](https://acm.sustech.edu.cn/onlinejudge/problem.php?cid=1090&pid=9)
+
 Time Limit: 2 Sec Memory Limit: 128 MB
 
 To celebrate the 10th anniversary of SUSTech, coins are falling from the heaven! \(Bob\) is on the way to collect them. Now there are some coins. The coin with index \(i\) will arrive in the ground at \(t_i\) second and at \(x_i\) position, value of which is \(y_i\). If at \(t_i\) second \(Bob\) is exactly at \(x_i\) position, he can collect that coin. In addition, each coin is so magical that only if \(Bob\) collect the coin with index \(j\) last time, which is less or equal than \(r_i(j \leq r_i)\), can he collect the coin with index \(i\). Particularly, \(Bob\) can immediately collect the FIRST coin by ignoring this magic. Meanwhile, it's known that if \(t_i > t_j\), then there will be \(x_i \geq x_j\). It's guarantee that if \(t_i = t_j\), there will not be \(x_i = x_j\).
