@@ -40,4 +40,94 @@ In a single line, print out the answer representing the max sum of the value \(B
 ## Solution
 
 ```cpp
+#include <iostream>
+#include <array>
+#include <algorithm>
+#include <map>
+#include <iterator>
+ 
+using namespace std;
+ 
+#define MAXN 100100
+ 
+typedef long long ll;
+ 
+ll n;
+ 
+array<array<ll, 5>, MAXN> s;
+ 
+map<ll, ll> arr[MAXN];
+ 
+void map_add(map<ll, ll> &m, ll k, ll v) {
+    auto iter = m.lower_bound(k);
+    if(iter->second >= v) {
+        return;
+    }
+    m[k] = v;
+    if(m.size() == 1) return;
+    iter = m.lower_bound(k);
+    if(iter == m.begin()) return;
+    /*
+    cout << "map_add" << endl;
+    for(auto i = m.begin(); i != m.end(); ++i) {
+        cout << i->first << " " << i->second << endl;
+    }
+    cout << "iter" << endl;
+    cout << iter->first << " " << iter->second << endl;
+    */
+    while(1) {
+        iter = std::prev(iter);
+        // cout << m.size() << " " << iter->first << " " << iter->second << endl;
+        if(iter->second >= v) return;
+        iter = m.erase(iter);
+        if(iter == m.begin()) return;
+    }
+     
+}
+ 
+void arr_add(ll i, ll k, ll v) {
+    while(i <= n) {
+        map_add(arr[i], k, v);
+        i += (i & -i);
+    }
+}
+ 
+ll arr_query(ll i, ll k) {
+    ll ret = 0;
+    while(i > 0) {
+        auto iter = arr[i].lower_bound(k);
+        if(iter != arr[i].end() && iter->second > ret) {
+            ret = iter->second;
+        }
+        i -= (i & -i);
+    }
+    return ret;
+}
+ 
+int main() {
+    while(cin >> n) {
+        for(ll i = 0; i <= n; ++i) {
+            arr[i].clear();
+        }
+        for(ll i = 0; i < n; ++i) {
+            cin >> s[i][0] >> s[i][1] >> s[i][2] >> s[i][3];
+            s[i][4] = i + 1;
+        }
+             
+        sort(s.begin(), s.begin() + n);
+         
+        ll ans = 0;
+        for(ll i = 0; i < n; ++i) {
+            // printf("i %d %d %d %d %d %d\n", i, s[i][0], s[i][1], s[i][2], s[i][3], s[i][4]);
+            ll k = s[i][1] - s[i][0];
+            ll r = s[i][3];
+            ll ind = s[i][4];
+            ll ay = arr_query(r, k) + s[i][2];
+            arr_add(ind, k, ay);
+            if(ay > ans) ans = ay;
+        }
+        cout << ans << endl;
+    }
+    return 0;
+}
 ```
